@@ -1,38 +1,8 @@
-import {useEffect, useState} from "react";
+
+import WithTestComponent from "../hocs/WithTestComponent";
 
 
-export const TestComponent = ({ list }) => {
-	const [enteredSearchValue, setEnteredSearchValue] = useState("");
-	const [activeSearchValue, setActiveSearchValue] = useState("");
-	const [sortMode, setSortMode] = useState(null);
-
-	const availableItems = activeSearchValue
-		? list.filter((item) => RegExp(activeSearchValue, "i").test(item.title))
-		: list;
-
-	const sortedItems = !sortMode
-		? availableItems
-		: availableItems.slice().sort((a, b) => {
-			if (sortMode === "asc" && a.title > b.title) {
-				return 1;
-			} else if (sortMode === "asc") {
-				return -1;
-			} else if (sortMode === "desc" && a.title > b.title) {
-				return -1;
-			} else {
-				return 1;
-			}
-		});
-
-	useEffect(() => {
-		const handler = setTimeout(() => {
-			setActiveSearchValue(enteredSearchValue);
-		}, 300);
-
-		return () => {
-			clearTimeout(handler);
-		};
-	}, [enteredSearchValue]);
+export const TestComponent = WithTestComponent( ({ list, setEnteredSearchValue, enteredSearchValue, setSortMode, sortMode, sortedItems}) => {
 
 	return (
 		<div className="App">
@@ -70,4 +40,4 @@ export const TestComponent = ({ list }) => {
 			</ul>
 		</div>
 	);
-}
+} )
